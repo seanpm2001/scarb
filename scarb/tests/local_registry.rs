@@ -123,9 +123,7 @@ fn url_pointing_to_file() {
     drop(registry_t);
 }
 
-// FIXME(#883): Unignore these tests.
 #[test]
-#[cfg_attr(target_os = "windows", ignore = "ignored on windows as of #883")]
 fn publish() {
     let t = TempDir::new().unwrap();
     let index = t.child("index");
@@ -205,9 +203,7 @@ fn publish() {
     );
 }
 
-// FIXME(#883): Unignore these tests.
 #[test]
-#[cfg_attr(target_os = "windows", ignore = "ignored on windows as of #883")]
 fn publish_overwrites_existing() {
     let index = TempDir::new().unwrap();
 
