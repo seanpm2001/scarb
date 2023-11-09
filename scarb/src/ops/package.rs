@@ -364,6 +364,7 @@ fn tar(
     const COMPRESSION_LEVEL: i32 = 22;
     let encoder = zstd::stream::Encoder::new(dst, COMPRESSION_LEVEL)?;
     let mut ar = tar::Builder::new(encoder);
+    ar.mode(tar::HeaderMode::Deterministic);
 
     let base_path = Utf8PathBuf::from(pkg_id.tarball_basename());
 
