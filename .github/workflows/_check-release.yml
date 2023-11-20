@@ -40,3 +40,5 @@ jobs:
           ref: ${{ inputs.ref }}
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo test --profile=ci --no-fail-fast
+        env:
+          RUST_BACKTRACE: 1
