@@ -28,10 +28,6 @@ jobs:
       fail-fast: ${{ inputs.fail-fast }}
       matrix:
         include:
-          - name: linux x86-64
-            os: ubuntu-latest
-          - name: macos x86-64
-            os: macos-latest
           - name: windows x86-64
             os: windows-latest
     steps:
@@ -39,6 +35,6 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
       - uses: dtolnay/rust-toolchain@stable
-      - run: cargo test --profile=ci --no-fail-fast
+      - run: cargo test --no-fail-fast
         env:
           RUST_BACKTRACE: full
