@@ -26,6 +26,7 @@ pub const CAIRO_COMMIT_HASH: Option<CommitHash> = match (
     _ => panic!("Either SCARB_CAIRO_COMMIT_HASH or SCARB_CAIRO_SHORT_COMMIT_HASH is missing."),
 };
 pub const CAIRO_COMMIT_REV: &str = env!("SCARB_CAIRO_COMMIT_REV");
+pub const SCARB_CORELIB_LOCAL_SOURCE: &str = env!("SCARB_CORELIB_LOCAL_SOURCE");
 
 #[cfg(test)]
 mod tests {

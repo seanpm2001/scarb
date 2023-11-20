@@ -66,9 +66,39 @@ fn cairo_version() {
         .iter()
         .find(|pkg| pkg.id == compiler_dep.pkg)
         .unwrap();
-
     let version = compiler_package.version.to_string();
     println!("cargo:rustc-env=SCARB_CAIRO_VERSION={version}");
+
+    let corelib_local_path = compiler_package
+        .id
+        .clone()
+        .repr
+        .strip_prefix(&format!("cairo-lang-compiler {version} ("))
+        .map(ToString::to_string)
+        .and_then(|source| source.split_once('+').map(|(s, _)| s.to_string()))
+        .and_then(|source| {
+            if source == "registry" {
+                None
+            } else {
+                // Source is local or git - corelib already downloaded by Cargo
+                let path = compiler_package.manifest_path.clone();
+                let path = path
+                    .parent()
+                    .expect("cairo-lang-compiler Cargo.toml parent must exist");
+                let path = path
+                    .parent()
+                    .expect("cairo-lang-compiler crate root parent must exist");
+                let path = path
+                    .parent()
+                    .expect("cairo-lang-compiler crates dir parent must exist");
+                let path = path.join("corelib");
+                assert!(path.exists(), "cairo-lang-compiler corelib must exist");
+                Some(path)
+            }
+        })
+        .map(|p| p.to_string())
+        .unwrap_or("".into());
+    println!("cargo:rustc-env=SCARB_CORELIB_LOCAL_SOURCE={corelib_local_path}");
 
     let mut rev = format!("refs/tags/v{version}");
     if let Some(source) = &compiler_package.source {
